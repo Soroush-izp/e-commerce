@@ -38,18 +38,37 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # my apps
     'accounts.apps.AccountsConfig',
     # third party apps
     'drf_spectacular',
     'rest_framework',
     'rest_framework_simplejwt',
+    'iranian_cities'    # for iran cities
 ]
+
+# Iranian Cities
+IRANIAN_CITIES_ADMIN_ADD_READONLY_ENABLED = True
+IRANIAN_CITIES_ADMIN_DELETE_READONLY_ENABLED = True
+IRANIAN_CITIES_ADMIN_CHANGE_READONLY_ENABLED = True
+IRANIAN_CITIES_ADMIN_INLINE_ENABLED = False
 
 # Rest api
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 

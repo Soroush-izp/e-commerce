@@ -80,3 +80,12 @@ class UserSerializer(serializers.ModelSerializer):
       model = User
       fields = '__all__'
       extra_kwargs = {'password': {'write_only': True}}
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+   
+   class Meta:
+      model = User
+      # fields = '__all__' # when i use exclude i can't use it
+      exclude = ['is_superuser']
+      read_only_fields= ['id', 'created_at', 'last_login', 'is_active', 'is_staff']

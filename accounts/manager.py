@@ -33,7 +33,7 @@ class CustomUserManager(BaseUserManager):
 
     def create_user(self, username, password=None, **extra_fields):
         """
-        Create and return a user with an email, phone number, or username.
+        Create a user.
         """
         if not username:
             raise ValueError("The Username field must be set")
@@ -45,6 +45,9 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, username, password, phone_number, first_name, last_name):
+        """
+        Create a superuser.
+        """
         user = self.model(
             username=username,
             phone_number=phone_number,
