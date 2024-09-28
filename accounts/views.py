@@ -6,6 +6,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import (
     UserRegistrationSerializer,
     CustomTokenObtainPairSerializer,
@@ -20,6 +21,7 @@ class UserRegistrationView(CreateAPIView):
     serializer_class = UserRegistrationSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [AllowAny]
+    parser_classes = (MultiPartParser, FormParser)
 
 
 class UserLoginView(TokenObtainPairView):
@@ -34,6 +36,7 @@ class UserListView(ListAPIView):
     queryset = User.objects.all()
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsAdminUser, IsSuperUser]
+    parser_classes = (MultiPartParser, FormParser)
 
 
 class GetUserView(RetrieveUpdateDestroyAPIView):
@@ -43,6 +46,7 @@ class GetUserView(RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsAdminUser, IsSuperUser]
+    parser_classes = (MultiPartParser, FormParser)
     
     def get(self, request, id):
         try:
@@ -59,6 +63,7 @@ class UserProfileView(RetrieveUpdateDestroyAPIView):
     serializer_class = UserProfileSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+    parser_classes = (MultiPartParser, FormParser)
 
     def get_object(self):
         return self.request.user

@@ -5,12 +5,14 @@ from .manager import CustomUserManager
 # Create your models here.
 
 class User(AbstractBaseUser, PermissionsMixin):
+   avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, default='avatars/default-avatar.jpg')
    email = models.EmailField(unique=True, blank=True, null=True)
    phone_number = models.CharField(max_length=15, unique=True, blank=True, null=True)
    username = models.CharField(max_length=255, unique=True)
    first_name = models.CharField(max_length=30, blank=True)
    last_name = models.CharField(max_length=30, blank=True)
    last_login = models.DateTimeField('Last Login', auto_now=True)
+   birth_of_date = models.DateField(null=True, blank=True)
    created_at = models.DateTimeField('Created At', auto_now_add=True)
    is_active = models.BooleanField(default=True)
    is_staff = models.BooleanField(default=False)
