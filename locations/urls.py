@@ -9,7 +9,7 @@ from .views import (
 
 urlpatterns = [
     path(
-        "api/provinces-with-cities/",
+        "provinces-with-cities/",
         ProvinceWithCitiesView.as_view(),
         name="provinces-with-cities",
     ),  # Get provinces with their cities

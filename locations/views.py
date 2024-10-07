@@ -9,7 +9,7 @@ from accounts.models import User
 from iranian_cities.models import Ostan, Shahrestan
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from accounts.manager import IsSuperUser, IsRegularUser
-
+# IsAdminUser => isStaff
 
 class ProvinceWithCitiesView(ListAPIView):
     queryset = Ostan.objects.all()

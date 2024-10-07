@@ -18,7 +18,7 @@ class ProvinceWithCitiesSerializer(serializers.ModelSerializer):
         model = Ostan
         fields = ["id", "amar_code", "name", "cities"]
 
-    def get_cities(self, obj):
+    def get_cities(self, obj) -> list:
         # This will return all cities belonging to the province
         cities = Shahrestan.objects.filter(ostan=obj)
         return CitySerializer(cities, many=True).data
@@ -46,10 +46,10 @@ class AddressSerializer(serializers.ModelSerializer):
             "address", 
         ]
 
-    def get_province_name(self, obj):
+    def get_province_name(self, obj) -> str:
         return obj.province.name
 
-    def get_city_name(self, obj):
+    def get_city_name(self, obj) -> str:
         return obj.city.name
     
     def validate(self, data):
