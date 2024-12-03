@@ -90,7 +90,6 @@ class PaymentRequestView(APIView):
     description="Verify the status of a payment after a callback from Zarinpal. The authority parameter is required.",
     tags=["Payments"]
 )
-
 class PaymentVerifyView(RetrieveAPIView):
     """
     Verify the payment status after Zarinpal callback.
@@ -159,7 +158,6 @@ class PaymentVerifyView(RetrieveAPIView):
     description="Retrieve a list of all payments made by the authenticated user, ordered by the latest payment date.",
     tags=["Payments"]
 )
-
 class PaymentHistoryView(ListAPIView):
     """
     Retrieve a list of all payments made by the authenticated user.
@@ -177,7 +175,6 @@ class PaymentHistoryView(ListAPIView):
     description="Retrieve detailed information about a specific payment made by the authenticated user.",
     tags=["Payments"]
 )
-
 class PaymentDetailView(RetrieveAPIView):
     """
     Retrieve details of a specific payment by ID.
@@ -212,7 +209,6 @@ class AdminPaymentHistoryView(ListAPIView):
     description="Retrieve detailed information about a specific payment. Accessible only to admin users.",
     tags=["Payments (Admin)"]
 )
-
 class AdminPaymentDetailView(RetrieveAPIView):
     """
     Retrieve details of a specific payment by ID for admin users.
