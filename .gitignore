@@ -279,4 +279,4 @@ pip-selfcheck.json
 1
 
 # Files have to be untracked
-media
+media/
