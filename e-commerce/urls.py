@@ -14,27 +14,42 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include, re_path
 from rest_framework import permissions
-from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    
+    path("admin/", admin.site.urls),
     # Include DRF-Spectacular URLs
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
-    
+    path("api/schema/", SpectacularAPIView.as_view(
+        api_version="v1",
+        custom_settings={
+            "DESCRIPTION": "API documentation for E-Commerce platform",
+            "VERSION": "1.0.0",
+        }
+    ), name="schema"),
+    path("api/docs/", SpectacularSwaggerView.as_view(
+        url_name="schema",
+        permission_classes=[],
+    ), name="swagger-ui"),
+    path("api/redoc/", SpectacularRedocView.as_view(
+        url_name="schema",
+        permission_classes=[],
+    ), name="redoc"),
     # My API URLs
-    path('api/account/', include('accounts.urls')),
-    path('api/locations/', include('locations.urls')),
-    path('api/catalog/', include('catalog.urls')),
-    path('api/orders/', include('orders.urls')),
-    path('api/payments/', include('payments.urls')),
+    path("api/account/", include("accounts.urls")),
+    path("api/locations/", include("locations.urls")),
+    path("api/catalog/", include("catalog.urls")),
+    path("api/orders/", include("orders.urls")),
+    path("api/payments/", include("payments.urls")),
 ]
 
 if settings.DEBUG:

@@ -173,20 +173,40 @@ cython_debug/
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
+*.py[cod]
+__pycache__/
+*.so
 
-# C extensions
+# Django
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
 
-# Distribution / packaging
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
 
-# Installer logs
+# Logs
+logs/
+*.log
 
-# Unit test / coverage reports
+# Local development settings
+local_settings.py
 
-# Translations
+# Coverage reports
+.coverage
+htmlcov/
 
 # Django stuff:
 

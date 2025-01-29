@@ -27,23 +27,23 @@ class ProvinceWithCitiesSerializer(serializers.ModelSerializer):
 class AddressSerializer(serializers.ModelSerializer):
     province_name = serializers.SerializerMethodField()
     city_name = serializers.SerializerMethodField()
-    id = serializers.IntegerField(read_only=True)   # make id just readable
+    id = serializers.IntegerField(read_only=True)  # make id just readable
     # user = serializers.IntegerField(read_only=True)   # make user just readable
 
     class Meta:
         model = Address
         fields = [
             "id",
-            'title', 
-            'phone_number', 
-            "user", 
-            "province", 
-            "province_name", 
-            "city", 
-            "city_name", 
-            "postal_code", 
-            "street", 
-            "address", 
+            "title",
+            "phone_number",
+            "user",
+            "province",
+            "province_name",
+            "city",
+            "city_name",
+            "postal_code",
+            "street",
+            "address",
         ]
 
     def get_province_name(self, obj) -> str:
@@ -51,7 +51,7 @@ class AddressSerializer(serializers.ModelSerializer):
 
     def get_city_name(self, obj) -> str:
         return obj.city.name
-    
+
     def validate(self, data):
         province = data.get("province")
         city = data.get("city")

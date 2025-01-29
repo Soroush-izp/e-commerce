@@ -1,8 +1,22 @@
 from django.contrib import admin
 from .models import (
-    Brand, BrandPhoto, BrandVideo, AttributeType, AttributeGroup, ProductAttributeValue,
-    Category, Product, ProductDetail, ProductPhoto, ProductVideo, ProductSKU, ProductSKUAttribute,
-    ReviewSection, ReviewText, ReviewPhoto, ReviewVideo
+    Brand,
+    BrandPhoto,
+    BrandVideo,
+    AttributeType,
+    AttributeGroup,
+    ProductAttributeValue,
+    Category,
+    Product,
+    ProductDetail,
+    ProductPhoto,
+    ProductVideo,
+    ProductSKU,
+    ProductSKUAttribute,
+    ReviewSection,
+    ReviewText,
+    ReviewPhoto,
+    ReviewVideo,
 )
 
 
@@ -44,32 +58,32 @@ class ReviewVideoInline(admin.TabularInline):
 
 # Custom ModelAdmin classes
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ('brand_name', 'is_active')
-    search_fields = ('brand_name',)
+    list_display = ("brand_name", "is_active")
+    search_fields = ("brand_name",)
     inlines = [BrandPhotoInline, BrandVideoInline]
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'parent', 'level', 'is_active')
-    search_fields = ('name',)
-    list_filter = ('is_active', 'level')
+    list_display = ("name", "parent", "level", "is_active")
+    search_fields = ("name",)
+    list_filter = ("is_active", "level")
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'is_active')
-    search_fields = ('name', 'category__name')
-    list_filter = ('is_active', 'category')
+    list_display = ("name", "category", "is_active")
+    search_fields = ("name", "category__name")
+    list_filter = ("is_active", "category")
     inlines = [ProductPhotoInline, ProductVideoInline]
 
 
 class ProductSKUAdmin(admin.ModelAdmin):
-    list_display = ('sku', 'product', 'price', 'quantity', 'is_active')
-    search_fields = ('sku', 'product__name')
-    list_filter = ('is_active',)
+    list_display = ("sku", "product", "price", "quantity", "is_active")
+    search_fields = ("sku", "product__name")
+    list_filter = ("is_active",)
 
 
 class ReviewSectionAdmin(admin.ModelAdmin):
-    list_display = ('product', 'title', 'order_num')
+    list_display = ("product", "title", "order_num")
     inlines = [ReviewTextInline, ReviewPhotoInline, ReviewVideoInline]
 
 

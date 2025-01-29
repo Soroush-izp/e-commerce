@@ -9,7 +9,9 @@ from accounts.models import User
 from iranian_cities.models import Ostan, Shahrestan
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from accounts.manager import IsSuperUser, IsRegularUser
+
 # IsAdminUser => isStaff
+
 
 class ProvinceWithCitiesView(ListAPIView):
     queryset = Ostan.objects.all()
@@ -21,7 +23,9 @@ class AddressListCreateView(ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Return only addresses that belong to the authenticated user
+        # Check if this is a schema request
+        if getattr(self, 'swagger_fake_view', False):
+            return Address.objects.none()
         return Address.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
