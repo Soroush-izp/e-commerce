@@ -11,9 +11,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
-
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,14 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-l+bo_$5g5j^+2p1ko$s*-t@ro!b@i^5!nd$blh40p2fec_$i-&'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
-
+# Django Settings
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+SECRET_KEY = os.getenv('SECRET_KEY')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 # Application definition
 
@@ -56,17 +55,17 @@ INSTALLED_APPS = [
 
 # Zarinpal config
 SANDBOX = True
-ZARINPAL_MERCHANT_ID = "3802bfce-90cf-42a2-b0e7-66c42addd603"
+ZARINPAL_MERCHANT_ID = os.getenv('ZARINPAL_MERCHANT_ID')
 
 if SANDBOX:
    sandbox = 'sandbox'
 else:
    sandbox = 'payment'
 
-ZARINPAL_REQUEST_URL = f"https://{sandbox}.zarinpal.com/pg/v4/payment/request.json"
-ZARINPAL_STARTPAY_URL = f"https://{sandbox}.zarinpal.com/pg/StartPay/"  # .$result['data']['authority']
-ZARINPAL_CALLBACK_URL = 'http://127.0.0.1:8000/api/payments/verify/'
-ZARINPAL_VERIFY_URL = f"https://{sandbox}.zarinpal.com/pg/v4/payment/verify.json"
+ZARINPAL_REQUEST_URL = os.getenv('ZARINPAL_REQUEST_URL')
+ZARINPAL_STARTPAY_URL = os.getenv('ZARINPAL_STARTPAY_URL')
+ZARINPAL_CALLBACK_URL = os.getenv('ZARINPAL_CALLBACK_URL')
+ZARINPAL_VERIFY_URL = os.getenv('ZARINPAL_VERIFY_URL')
 
 # Iranian Cities Set
 IRANIAN_CITIES_ADMIN_ADD_READONLY_ENABLED = True
@@ -113,8 +112,8 @@ SPECTACULAR_SETTINGS = {
 
 # JWT
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=15),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=int(os.getenv('JWT_ACCESS_TOKEN_LIFETIME_MINUTES', 60))),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=int(os.getenv('JWT_REFRESH_TOKEN_LIFETIME_DAYS', 7))),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'AUTH_HEADER_TYPES': ('Bearer',)
@@ -154,21 +153,14 @@ WSGI_APPLICATION = 'e-commerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',  
-        'NAME': 'shoe_shope',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',                        
-        'PORT': '5432',
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
@@ -209,7 +201,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = os.getenv('STATIC_URL')
+STATIC_ROOT = os.path.join(BASE_DIR, os.getenv('STATIC_ROOT'))
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -218,5 +211,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # media saved here
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = os.getenv('MEDIA_URL')
+MEDIA_ROOT = os.path.join(BASE_DIR, os.getenv('MEDIA_ROOT'))
+
+# Email Settings
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+# Redis Settings
+REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
+REDIS_PORT = int(os.getenv('REDIS_PORT', 6379))
+REDIS_DB = int(os.getenv('REDIS_DB', 0))
+
+# CORS Settings
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
